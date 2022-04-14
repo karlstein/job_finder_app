@@ -38,7 +38,6 @@ class RegistrationController extends GetxController {
   var profileModel = Rxn<ProfileModel>();
 
   var allCityList = RxList<CityModel>([]);
-  // var allCityString = RxList<String>([]);
   var userEmail = Rxn<String>();
   var skillStream = RxList<SkillModel>([]);
 
@@ -46,7 +45,6 @@ class RegistrationController extends GetxController {
   void onInit() async {
     userEmail.value = await firebase.auth.currentUser!.email;
     super.onInit();
-    // allCityString.bindStream(firestoreStream.getCityString());
     allCityList.bindStream(firestoreStream.getAllCity());
     skillStream.bindStream(firestoreStream.getAllSkill(userEmail.value));
   }

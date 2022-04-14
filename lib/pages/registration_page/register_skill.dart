@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:newsanbercode/const.dart';
-import 'package:newsanbercode/controller/globalkey_formstate.dart';
+import 'package:newsanbercode/controller/globalkey/globalkey_formstate.dart';
 import 'package:newsanbercode/controller/registration/registration_controller.dart';
 import 'package:newsanbercode/controller/registration/regskill_controller.dart';
 import 'package:newsanbercode/models/skill_model.dart';

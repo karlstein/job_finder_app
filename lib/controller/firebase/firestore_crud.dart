@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:newsanbercode/controller/globalkey_formstate.dart';
+import 'package:newsanbercode/controller/globalkey/globalkey_formstate.dart';
 import 'package:newsanbercode/controller/registration/registration_controller.dart';
+import 'package:newsanbercode/controller/registration/verification_controller.dart';
 import 'package:newsanbercode/models/job_model.dart';
 import 'package:newsanbercode/models/provinsi_kota.dart';
 import 'package:newsanbercode/routing/routes_named.dart';
@@ -10,6 +11,7 @@ import 'package:newsanbercode/services/firebase.dart';
 
 FirebaseInstance firebase = FirebaseInstance();
 var cReg = Get.find<RegistrationController>();
+var cVer = Get.find<VerificationController>();
 
 class FirestoreCreate {
   createProfile() async {
@@ -53,13 +55,23 @@ class FirestoreCreate {
     }
   }
 
+  createEmailVerification() async {
+    cReg.isLoading.value = true;
+    var email = FirebaseAuth.instance.currentUser!.email;
+    await firebase.emailVerification.add({
+      'email': email,
+    });
+    Get.back();
+    cReg.isLoading.value = false;
+  }
+
   registerAccount() async {
     if (FormKey.mainFormKey.currentState!.validate() &&
         cReg.regPassword.value == cReg.passwordConfirm.value) {
       cReg.isLoading.value = true;
       try {
         await firebase.auth.createUserWithEmailAndPassword(
-            email: cReg.userEmail.value!, password: cReg.regPassword.value);
+            email: cReg.regEmail.value, password: cReg.regPassword.value);
         Get.toNamed(RoutesName.email_verification_page);
       } on FirebaseException catch (e) {
         print(e.code);

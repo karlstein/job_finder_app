@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newsanbercode/const.dart';
 import 'package:newsanbercode/controller/firebase/firebase_auth.dart';
-import 'package:newsanbercode/controller/globalkey_formstate.dart';
+import 'package:newsanbercode/controller/globalkey/globalkey_formstate.dart';
 import 'package:newsanbercode/controller/registration/registration_controller.dart';
 import 'package:newsanbercode/controller/registration/regskill_controller.dart';
 import 'package:newsanbercode/widgets/confirmation_button.dart';

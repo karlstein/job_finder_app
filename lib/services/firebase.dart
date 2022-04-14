@@ -6,6 +6,8 @@ class FirebaseInstance {
   var profileCollection = FirebaseFirestore.instance.collection("UserModel");
   var skillCollection = FirebaseFirestore.instance.collection("UserSkill");
   var jobCollection = FirebaseFirestore.instance.collection("JobModel");
+  var emailVerification =
+      FirebaseFirestore.instance.collection("EmailVerification");
 
   final auth = FirebaseAuth.instance;
 }

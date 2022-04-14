@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:newsanbercode/const.dart';
-import 'package:newsanbercode/controller/login_controller.dart';
+import 'package:newsanbercode/controller/globalkey/globalkey_formstate.dart';
+import 'package:newsanbercode/controller/login/login_controller.dart';
 import 'package:newsanbercode/routing/routes_named.dart';
 import 'package:newsanbercode/widgets/action_text.dart';
 import 'package:newsanbercode/widgets/confirmation_button.dart';
@@ -24,7 +25,7 @@ class LoginPageEmail extends StatelessWidget {
             isLoading: c.isLoading.value,
             child: SingleChildScrollView(
               child: ContainerForm(
-                formKey: c.emailFormKey.value,
+                formKey: FormKey.emailFormKey,
                 formTitle: "Sign In",
                 formSubtitle: "to Continue",
                 children: [
@@ -40,8 +41,8 @@ class LoginPageEmail extends StatelessWidget {
                     height: 20,
                   ),
                   ConfirmationButton(
-                    onPressed: () async => await c.authFirebase
-                        .loginNext(c.emailFormKey, c.isLoading, c.email),
+                    onPressed: () async =>
+                        await c.authFirebase.loginNext(c.isLoading, c.email),
                     buttonName: "Next",
                   ),
                   ActionText(

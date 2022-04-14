@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:newsanbercode/controller/firebase/firestore_crud.dart';
+import 'package:newsanbercode/controller/globalkey/globalkey_formstate.dart';
 import 'package:newsanbercode/routing/routes_named.dart';
 
 class AuthFirebase {
@@ -11,6 +12,17 @@ class AuthFirebase {
     var email = await auth.currentUser!.email;
     QuerySnapshot querySnapshot =
         await firebase.profileCollection.where('Email', isEqualTo: email).get();
+    if (querySnapshot.docs.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> checkEmailVerification() async {
+    var email = await auth.currentUser!.email;
+    QuerySnapshot querySnapshot =
+        await firebase.emailVerification.where('Email', isEqualTo: email).get();
     if (querySnapshot.docs.isEmpty) {
       return true;
     } else {
@@ -41,8 +53,8 @@ class AuthFirebase {
     });
   }
 
-  loginNext(emailFormKey, RxBool isLoading, RxString email) async {
-    if (emailFormKey.value.currentState!.validate()) {
+  loginNext(RxBool isLoading, RxString email) async {
+    if (FormKey.emailFormKey.currentState!.validate()) {
       isLoading.value = true;
       try {
         await auth.createUserWithEmailAndPassword(
@@ -57,9 +69,8 @@ class AuthFirebase {
     }
   }
 
-  loginSubmit(passwordFormKey, RxBool isLoading, RxString email,
-      RxString password) async {
-    if (passwordFormKey.value.currentState!.validate()) {
+  loginSubmit(RxBool isLoading, RxString email, RxString password) async {
+    if (FormKey.passwordFormKey.currentState!.validate()) {
       isLoading.value = true;
       try {
         print("Email: ${email.value} & Password ${password.value}");

@@ -4,7 +4,7 @@ import 'package:newsanbercode/controller/dashboard/component/goto_detail_page.da
 import 'package:newsanbercode/controller/firebase/firebase_auth.dart';
 import 'package:newsanbercode/controller/firebase/firestore_crud.dart';
 import 'package:newsanbercode/controller/firebase/firestore_stream.dart';
-import 'package:newsanbercode/controller/json_mgmnt/read_json.dart';
+import 'package:newsanbercode/controller/json_act/read_json.dart';
 import 'package:newsanbercode/models/job_model.dart';
 import 'package:newsanbercode/models/profile_model.dart';
 import 'package:newsanbercode/models/provinsi_kota.dart';
@@ -20,6 +20,7 @@ class DashboardController extends GetxController {
   var goto = GoToDetailPage();
   var readJson = ReadJson();
 
+  var isVerified = false.obs;
   var profileNotCreated = true.obs;
   var skillNotCreated = true.obs;
   var jobDetail = JobModel().obs;
@@ -38,20 +39,24 @@ class DashboardController extends GetxController {
     // Check if profile and skill are already created
     profileNotCreated.value = await authFirebase.checkProfile();
     skillNotCreated.value = await authFirebase.checkSkill();
+    isVerified.value = await authFirebase.auth.currentUser!.emailVerified;
 
-    if (profileNotCreated.value) {
+    print("Sudah verivikasi: ${isVerified.value}");
+
+    if (!isVerified.value) {
+      Get.offNamed(RoutesName.email_verification_page);
+    } else if (profileNotCreated.value) {
       Get.offNamed(RoutesName.register_profile_page);
     } else if (skillNotCreated.value) {
       Get.offNamed(RoutesName.register_skill_page);
+    } else {
+      print(userEmail.value);
+
+      // Bind Stream to variable
+      jobs.bindStream(firestoreStream.getAllJobs());
+      myProfile.bindStream(firestoreStream.getMyProfile(userEmail.value));
+      allCityList.bindStream(firestoreStream.getAllCity());
     }
-
-    print(userEmail.value);
-
-    // Bind Stream to variable
-    // allCityString.bindStream(firestoreStream.getCityString());
-    jobs.bindStream(firestoreStream.getAllJobs());
-    myProfile.bindStream(firestoreStream.getMyProfile(userEmail.value));
-    allCityList.bindStream(firestoreStream.getAllCity());
 
     super.onInit();
   }
