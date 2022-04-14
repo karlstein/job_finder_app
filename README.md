@@ -22,3 +22,7 @@ Feature:
 9. Drawer menu that has element: my account, sign out, other (currently not available)
 10. My account has navigation to set your profile (currently just displaying it). There are other, but still not available as time of writing.
 11. Sign Out
+
+
+Screenshoot:
+![This is an image](https://photos.app.goo.gl/JjYSbB9qZNnb6yCq7)
